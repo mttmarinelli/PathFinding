@@ -1,0 +1,45 @@
+@startuml
+!theme resume-light
+'https://plantuml.com/class-diagram
+
+class QGraphicsView
+class QGraphicsRectItem
+class QGraphicsScene
+
+QGraphicsView *-- QGraphicsScene
+
+QGraphicsRectItem <|-- CellWidget
+QGraphicsScene -- QGraphicsRectItem
+class CellWidget {
+    +r : int
+    +c : int
+
+    #mousePressEvent(QGraphicsSceneMouseEvent*)
+    #hoverEnterEvent(QGraphicsSceneHoverEvent*)
+    #hoverLeaveEvent(QGraphicsSceneHoverEvent*)
+}
+
+Grid --* CellWidget
+class Grid {
+    -data [] : CellWidget
+}
+
+class Movement {
+    vx : int
+    vy : int
+}
+
+QGraphicsView <|-- GraphicsView
+GraphicsView o-- Movement
+class GraphicsView {
+    +Movement get_movement()
+    #KeyPressEvent(QKeyEvent *)
+}
+
+enum TimeUnit {
+DAYS
+HOURS
+MINUTES
+}
+
+@enduml
