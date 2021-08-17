@@ -11,8 +11,8 @@
 #include <QTimer>
 #include <thread>
 
-#include "../BrushStyle.h"
 #include "pathfinder/IBasePathFinder.h"
+#include "ui/BrushStyle.h"
 #include "ui/Grid.h"
 #include "ui/ui_PathFindingWindow.h"
 

@@ -16,7 +16,7 @@ add_compile_options(-fconcepts)
 add_executable(${PROJECT_NAME}
         src/main.cpp
         src/ui/GraphicsView.cpp src/ui/GraphicsView.h
-        BrushStyle.h
+        src/ui/BrushStyle.h
         src/pathfinder/IBasePathFinder.h src/pathfinder/IBasePathFinder.cpp
         src/ui/Grid.cpp src/ui/Grid.h
         src/pathfinder/IFinderAlgorithm.cpp src/pathfinder/IFinderAlgorithm.h)

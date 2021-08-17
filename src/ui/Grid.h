@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../../BrushStyle.h"
+#include "BrushStyle.h"
 #include <QBrush>
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
