@@ -1,7 +1,6 @@
 #include <memory>
 #include <random>
 #include <thread>
-#include <iostream>
 #include <fmt/core.h>
 
 #include <QApplication>
