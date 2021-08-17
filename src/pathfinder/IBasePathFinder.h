@@ -4,11 +4,13 @@
 
 #pragma once
 
-#include "Grid.h"
+#include "../ui/Grid.h"
+
+class IFinderAlgorithm;
 
 class PathFinderConfig
 {
-  PathFinderConfig() : start_pos{nullptr}, end_pos{nullptr}, type{SerchType::DFS}
+  PathFinderConfig()
   {
     type_desc[SerchType::DFS] = "DSF";
     type_desc[SerchType::BFS] = "BSF";
@@ -30,16 +32,33 @@ public:
     return data;
   }
 
-  Grid::CellWidget *start_pos, *end_pos;
-  SerchType type;
+  Grid::CellWidget *start_pos = nullptr;
+  Grid::CellWidget *end_pos = nullptr;
+  SerchType type = SerchType::DFS;
   std::unordered_map<SerchType, std::string> type_desc;
+
+  bool is_valid() const
+  {
+    return start_pos && end_pos;
+  }
+
+  void clear()
+  {
+    start_pos = nullptr;
+    end_pos = nullptr;
+  }
 
   PathFinderConfig(PathFinderConfig const &) = delete;
   PathFinderConfig& operator=(PathFinderConfig const &) = delete;
 };
 
-class IBasePathFinder : public QObject
+class IBasePathFinder
 {
-  typedef std::tuple<int, int> pos_t;
-  virtual std::vector<pos_t> find(pos_t start, pos_t end, Grid &g);
+  using pos_t = std::tuple<int, int>;
+  std::unique_ptr<IFinderAlgorithm> finder;
+
+public:
+  explicit IBasePathFinder(Grid &g);
+  ~IBasePathFinder();
+  [[nodiscard]] std::vector<pos_t> find() const;
 };

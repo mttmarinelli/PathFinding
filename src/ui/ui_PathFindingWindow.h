@@ -1,12 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'PathFindingWindowDeZJer.ui'
+** Form generated from reading UI file 'PathFindingWindowjGUANX.ui'
 **
-** Created by: Qt User Interface Compiler version 5.15.1
+** Created by: Qt User Interface Compiler version 5.15.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#pragma once
+#ifndef PATHFINDINGWINDOWJGUANX_H
+#define PATHFINDINGWINDOWJGUANX_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -41,7 +42,7 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *btnPlay;
-    QPushButton *btnStop;
+    QPushButton *btnClear;
     QSpacerItem *horizontalSpacer_4;
     QGraphicsView *graphicsView;
     QStatusBar *statusbar;
@@ -50,7 +51,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1000, 800);
+        MainWindow->resize(953, 594);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -93,7 +94,6 @@ public:
         btnStartPos->setCheckable(true);
         btnStartPos->setAutoExclusive(false);
         btnStartPos->setFlat(false);
-        btnStartPos->setChecked(true);
 
         horizontalLayout->addWidget(btnStartPos);
 
@@ -127,10 +127,10 @@ public:
 
         horizontalLayout_3->addWidget(btnPlay);
 
-        btnStop = new QPushButton(centralwidget);
-        btnStop->setObjectName(QString::fromUtf8("btnStop"));
+        btnClear = new QPushButton(centralwidget);
+        btnClear->setObjectName(QString::fromUtf8("btnClear"));
 
-        horizontalLayout_3->addWidget(btnStop);
+        horizontalLayout_3->addWidget(btnClear);
 
 
         horizontalLayout_4->addLayout(horizontalLayout_3);
@@ -173,7 +173,7 @@ public:
         btnObstaclePos->setText(QCoreApplication::translate("MainWindow", "Obstacle Position", nullptr));
         btnEndPos->setText(QCoreApplication::translate("MainWindow", "End Position", nullptr));
         btnPlay->setText(QCoreApplication::translate("MainWindow", "Play", nullptr));
-        btnStop->setText(QCoreApplication::translate("MainWindow", "Stop", nullptr));
+        btnClear->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
     } // retranslateUi
 
 };
@@ -183,3 +183,5 @@ namespace Ui {
 } // namespace Ui
 
 QT_END_NAMESPACE
+
+#endif // PATHFINDINGWINDOWJGUANX_H

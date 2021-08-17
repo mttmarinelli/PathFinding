@@ -4,16 +4,15 @@
 
 #pragma once
 
-#include <memory>
-#include <QPen>
+#include "../../BrushStyle.h"
 #include <QBrush>
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
-#include "BrushStyle.h"
+#include <QPen>
+#include <memory>
 
 class Grid
 {
-  typedef std::tuple<int, int> pos_t;
 public:
   class CellWidget : public QGraphicsRectItem
   {
@@ -38,13 +37,15 @@ public:
   float cell_width{50};
   float cell_height{50};
   float border_thickness{0};
-  std::unique_ptr<std::unique_ptr<CellWidget>[]> data;
+  std::vector<std::unique_ptr<CellWidget>> data;
 
   [[nodiscard]] int ofs(int r, int c) const;
 
   Grid(float start_x, float start_y, int rows, int cols, int W, int H, float borderThickness = 0, QGraphicsScene *parent = nullptr);
 
   CellWidget* at(int r, int c);
+
+  void clear();
 
   [[nodiscard]] float x_coord(int c) const;
   [[nodiscard]] float y_coord(int r) const;

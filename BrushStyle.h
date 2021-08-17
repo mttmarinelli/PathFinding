@@ -14,7 +14,9 @@ public:
     Empty,
     Start,
     Obstacle,
-    Stop
+    Stop,
+    Visited,
+    Path
   };
 
   static BrushStyle& instance()
@@ -55,6 +57,8 @@ private:
     styles[EStyle::Start] = QBrush(Qt::yellow);
     styles[EStyle::Obstacle] = QBrush(Qt::cyan);
     styles[EStyle::Stop] = QBrush(Qt::green);
+    styles[EStyle::Visited] = QBrush(Qt::lightGray);
+    styles[EStyle::Path] = QBrush(Qt::darkGreen);
   }
 
   EStyle current_style;

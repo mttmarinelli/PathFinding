@@ -3,7 +3,7 @@
 //
 
 #include "Grid.h"
-#include "IBasePathFinder.h"
+#include "../pathfinder/IBasePathFinder.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
@@ -52,6 +52,9 @@ void Grid::CellWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
         end = end != this ? this : nullptr;
       }
     } break;
+
+    default:
+      return;
   }
 }
 
@@ -80,7 +83,7 @@ Grid::Grid(float start_x, float start_y, int rows, int cols, int W, int H, float
   start_x(start_x), start_y(start_y),
   rows(rows), cols(cols),
   border_thickness(borderThickness),
-  data(new std::unique_ptr<CellWidget>[rows*cols])
+  data(rows*cols)
 {
   cell_width = (W - (2 * start_x)) / cols - border_thickness;
   cell_height = (H - (2 * start_y)) / rows - border_thickness;
@@ -95,6 +98,13 @@ Grid::Grid(float start_x, float start_y, int rows, int cols, int W, int H, float
       parent->addItem(static_cast<QGraphicsRectItem*>(data[ofs(r, c)].get()));
     }
 }
+
+void Grid::clear()
+{
+  for (auto &c : data)
+    c->setBrush(BrushStyle::instance().get_brush(BrushStyle::EStyle::Empty));
+}
+
 
 Grid::CellWidget* Grid::at(int r, int c) { return data[ofs(r, c)].get(); }
 
