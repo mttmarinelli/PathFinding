@@ -5,6 +5,7 @@
 #pragma once
 
 #include <tuple>
+#include <string>
 #include <vector>
 
 class Grid;
@@ -40,6 +41,8 @@ protected:
 
   Grid &grid;
   std::vector<std::vector<GraphNode>> graph;
+
+  [[nodiscard]] std::string to_string(const std::string &nm, pos_t start, pos_t end) const;
 
   void build_graph();
 

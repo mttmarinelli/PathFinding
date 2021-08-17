@@ -19,12 +19,17 @@ add_executable(${PROJECT_NAME}
         src/ui/BrushStyle.h
         src/pathfinder/IBasePathFinder.h src/pathfinder/IBasePathFinder.cpp
         src/ui/Grid.cpp src/ui/Grid.h
-        src/pathfinder/IFinderAlgorithm.cpp src/pathfinder/IFinderAlgorithm.h)
+        src/pathfinder/IFinderAlgorithm.cpp src/pathfinder/IFinderAlgorithm.h src/utility/Logger.cpp src/utility/Logger.h)
+
+target_include_directories(${PROJECT_NAME} PRIVATE src)
 
 #if (NOT CMAKE_PREFIX_PATH)
 #    message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
 #            "(-DCMAKE_PREFIX_PATH=\"path/to/Qt/lib/cmake\" or -DCMAKE_PREFIX_PATH=/usr/include/{host}/qt{version}/ on Ubuntu)")
 #endif ()
 
+find_package(fmt REQUIRED)
+find_package(Threads REQUIRED)
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
+
+target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED} Threads::Threads fmt::fmt)

@@ -11,10 +11,22 @@
 #include <stack>
 
 #include <QGraphicsScene>
+#include <fmt/core.h>
+#include <utility/Logger.h>
 
 IFinderAlgorithm::IFinderAlgorithm(Grid &g) : grid(g)
 {
   build_graph();
+}
+
+std::string IFinderAlgorithm::to_string(const std::string &nm, pos_t start, pos_t end) const
+{
+  auto [sr, sc] = start;
+  auto [er, ec] = end;
+
+  return fmt::format("{} Search Algorithm is running:\n"
+                         "\tstart:\t{}\t{}\n"
+                         "\tend:\t{}\t{}\n", nm, sr+1, sc+1, er+1, ec+1);
 }
 
 void IFinderAlgorithm::build_graph()
@@ -92,9 +104,7 @@ std::vector<IFinderAlgorithm::pos_t> DFSFinderAlgorithm::find(IFinderAlgorithm::
   auto start_node = &graph[std::get<0>(start)][std::get<1>(start)];
   auto end_node = &graph[std::get<0>(end)][std::get<1>(end)];
 
-  std::cout << "DFS Search Algorithm is running:\n"
-               "\tstart:\t " << start_node->r+1 << "\t" << start_node->c+1 << "\n"
-               "\tend:\t " << end_node->r+1 << "\t" << end_node->c+1 << "\n";
+  Logger::push(Logger::LogType::Info, to_string("DFS", start, end));
 
   std::stack<GraphNode*> frontier;
   frontier.push(start_node);
@@ -145,9 +155,7 @@ std::vector<IFinderAlgorithm::pos_t> BFSFinderAlgorithm::find(IFinderAlgorithm::
   auto start_node = &graph[std::get<0>(start)][std::get<1>(start)];
   auto end_node = &graph[std::get<0>(end)][std::get<1>(end)];
 
-  std::cout << "BFS Search Algorithm is running:\n"
-               "\tstart:\t " << start_node->r+1 << "\t" << start_node->c+1 << "\n"
-               "\tend:\t " << end_node->r+1 << "\t" << end_node->c+1 << "\n";
+  Logger::push(Logger::LogType::Info, to_string("BFS", start, end));
 
   std::queue<GraphNode*> frontier;
   frontier.push(start_node);
@@ -197,9 +205,7 @@ std::vector<IFinderAlgorithm::pos_t> DijkstraFinderAlgorithm::find(IFinderAlgori
   auto start_node = &graph[std::get<0>(start)][std::get<1>(start)];
   auto end_node = &graph[std::get<0>(end)][std::get<1>(end)];
 
-  std::cout << "Dijkstra Search Algorithm is running:\n"
-               "\tstart:\t " << start_node->r+1 << "\t" << start_node->c+1 << "\n"
-               "\tend:\t " << end_node->r+1 << "\t" << end_node->c+1 << "\n";
+  Logger::push(Logger::LogType::Info, to_string("Dijkstra", start, end));
 
   // TODO: replace the deque data structure with a MinHeap
   std::deque<GraphNode*> frontier;
@@ -277,9 +283,7 @@ std::vector<IFinderAlgorithm::pos_t> AFinderAlgorithm::find(IFinderAlgorithm::po
   auto start_node = &graph[std::get<0>(start)][std::get<1>(start)];
   auto end_node = &graph[std::get<0>(end)][std::get<1>(end)];
 
-  std::cout << "A* Search Algorithm is running:\n"
-               "\tstart:\t " << start_node->r+1 << "\t" << start_node->c+1 << "\n"
-               "\tend:\t " << end_node->r+1 << "\t" << end_node->c+1 << "\n";
+  Logger::push(Logger::LogType::Info, to_string("A*", start, end));
 
   // TODO: replace the deque data structure with a MinHeap
   std::deque<GraphNode*> frontier;
@@ -318,14 +322,14 @@ std::vector<IFinderAlgorithm::pos_t> AFinderAlgorithm::find(IFinderAlgorithm::po
     const auto p = frontier.front();
     frontier.pop_front();
 
-    const std::string str = std::to_string(cnt++) + " [" + std::to_string(p->estimated_distance) + ", " + std::to_string(p->distance) + "]";
+    const auto cell_str = fmt::format("{} [{},{}]", cnt++, p->estimated_distance, p->distance);
 //    auto text = grid.at(p->r, p->c)->scene()->addText(QString::fromStdString(str));
 //    auto rect = grid.at(p->r, p->c)->rect();
 //    text->setPos(rect.center().x() - rect.width()/2, rect.center().y() - rect.height()/2);
 //    text->setTextWidth(100);
 //    text->setOpacity(1);
 
-    std::cout << "[" << p->r << ", " << p->c << "]: " << str << "\n";
+    Logger::push(Logger::LogType::Info, fmt::format("[{}, {}]: {}", p->r, p->c, cell_str));
 
     if (p == end_node)
       break;

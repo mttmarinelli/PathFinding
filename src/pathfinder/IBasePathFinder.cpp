@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 
+#include "utility/Logger.h"
 #include "IBasePathFinder.h"
 #include "IFinderAlgorithm.h"
 
@@ -41,7 +42,7 @@ std::vector<IBasePathFinder::pos_t> IBasePathFinder::find() const
 {
   if (!finder || !PathFinderConfig::instance().is_valid())
   {
-    std::cout << "Please select a start/end position\n";
+    Logger::push(Logger::LogType::Warning, "Please select a valid start/end position");
     return {};
   }
 

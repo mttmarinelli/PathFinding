@@ -1,6 +1,8 @@
 #include <memory>
 #include <random>
+#include <thread>
 #include <iostream>
+#include <fmt/core.h>
 
 #include <QApplication>
 #include <QComboBox>
@@ -9,14 +11,13 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTimer>
-#include <thread>
 
-#include "pathfinder/IBasePathFinder.h"
 #include "ui/BrushStyle.h"
 #include "ui/Grid.h"
 #include "ui/ui_PathFindingWindow.h"
+#include "utility/Logger.h"
+#include "pathfinder/IBasePathFinder.h"
 
-// TODO: add a singleton class to implement the logging functionalities
 // TODO: add the possibility to change the node weight
 // TODO: animate the search process
 
@@ -75,13 +76,19 @@ int main(int argc, char *argv[])
 
   QObject::connect(main_window->cmbAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), &a, [&](int index) {
     PathFinderConfig::instance().type = static_cast<PathFinderConfig::SerchType>(index);
-    std::cout << "Search Type: " << PathFinderConfig::instance().type_desc[PathFinderConfig::instance().type] << "\n";
+    Logger::push(Logger::LogType::Info, fmt::format("Search Type: {}", PathFinderConfig::instance().type_desc[PathFinderConfig::instance().type]));
   });
 
   QObject::connect(main_window->btnPlay, QOverload<bool>::of(&QPushButton::clicked), [&](bool) {
 
     auto &brush = BrushStyle::instance();
     auto &config = PathFinderConfig::instance();
+
+    if (!config.is_valid())
+    {
+      Logger::push(Logger::LogType::Warning, "Please, select a valid start/end position");
+      return;
+    }
 
     const int start_r = config.start_pos->r;
     const int start_c = config.start_pos->c;
