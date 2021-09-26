@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
   scene->setBackgroundBrush(Qt::black);
   BrushStyle::instance().set_brush(BrushStyle::EStyle::Start);
 
-  QObject::connect(main_window->btnStartPos, QOverload<bool>::of(&QPushButton::clicked), [&](bool checked) {
+  QObject::connect(main_window->btnStartPos, QOverload<bool>::of(&QPushButton::clicked), [&main_window](bool checked) {
     if (checked)
     {
       main_window->btnEndPos->setChecked(false);
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     }
   });
 
-  QObject::connect(main_window->btnObstaclePos, QOverload<bool>::of(&QPushButton::clicked), [&](bool checked) {
+  QObject::connect(main_window->btnObstaclePos, QOverload<bool>::of(&QPushButton::clicked), [&main_window](bool checked) {
     if (checked)
     {
       main_window->btnStartPos->setChecked(false);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     }
   });
 
-  QObject::connect(main_window->btnEndPos, QOverload<bool>::of(&QPushButton::clicked), [&](bool checked) {
+  QObject::connect(main_window->btnEndPos, QOverload<bool>::of(&QPushButton::clicked), [&main_window](bool checked) {
     if (checked)
     {
       main_window->btnStartPos->setChecked(false);
@@ -73,12 +73,12 @@ int main(int argc, char *argv[])
     }
   });
 
-  QObject::connect(main_window->cmbAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), &a, [&](int index) {
+  QObject::connect(main_window->cmbAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), &a, [](int index) {
     PathFinderConfig::instance().type = static_cast<PathFinderConfig::SerchType>(index);
     Logger::push(Logger::LogType::Info, fmt::format("Search Type: {}", PathFinderConfig::instance().type_desc[PathFinderConfig::instance().type]));
   });
 
-  QObject::connect(main_window->btnPlay, QOverload<bool>::of(&QPushButton::clicked), [&](bool) {
+  QObject::connect(main_window->btnPlay, QOverload<bool>::of(&QPushButton::clicked), [&main_window, &grid, &scene, &graphics_refresh_time_ms](bool) {
 
     auto &brush = BrushStyle::instance();
     auto &config = PathFinderConfig::instance();
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     main_window->statusbar->showMessage(QString::fromStdString("Number of nodes in the path: " + std::to_string(nodes)));
   });
 
-  QObject::connect(main_window->btnClear, QOverload<bool>::of(&QPushButton::clicked), [&](bool) {
+  QObject::connect(main_window->btnClear, QOverload<bool>::of(&QPushButton::clicked), [&grid](bool) {
     grid.clear();
     PathFinderConfig::instance().clear();
   });
